@@ -1,6 +1,10 @@
 let path = require('path')
 const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
+const fetch = require('node-fetch');
+const cors = require('cors')
+const bodyParser = require('body-parser');
+let result = {};
 // const formInput = document.querySelector("#name");
 
 
@@ -9,8 +13,7 @@ const mockAPIResponse = require('./mockAPI.js')
 const dotenv = require('dotenv');
 dotenv.config();
 
-const apiKey = process.env.API_KEY
-const baseUrl = 'https://api.meaningcloud.com/lang-4.0/identification'
+
 
 
 
@@ -18,18 +21,18 @@ const baseUrl = 'https://api.meaningcloud.com/lang-4.0/identification'
 const app = express()
 
 /* Dependencies */
-const bodyParser = require('body-parser')
 
 /* Middleware*/
-app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 //Here we are configuring express to use body-parser as middle-ware.
 // Cors for cross origin allowance
-const cors = require('cors')
 
 app.use(cors())
 
 
+    const apiKey = process.env.API_KEY
+const baseUrl = 'https://api.meaningcloud.com/sentiment-2.1'
 
 app.use(express.static('dist'))
 
@@ -51,22 +54,21 @@ app.get('/test', function (req, res) {
 // endpoint to test api
 
 app.post('/text',function(req,res){
-        return res.send(req.body)
-        textApiCall(baseUrl,apiKey,formInput)
+
+        
+        textApiCall(baseUrl,apiKey,req.body.inputText);
+        res.send(result);
+
 });
 
 const textApiCall = async(url,apiKey,text)=>{
-
-    const response = await fetch(`${url}`,{
+    const response = await fetch(`${url}?key=${apiKey}&txt=${text}&lang=en`,{
         method: 'POST',
-        key: apiKey,
-        txt: text,
     });
 
     try{
 
-        const result = await response.json;
-        console.log(result);
+         result = await response.json();
         return result;
 
     }catch(error){
