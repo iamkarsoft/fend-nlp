@@ -53,10 +53,10 @@ app.get('/test', function (req, res) {
 
 // endpoint to test api
 
-app.post('/text',function(req,res){
+app.post('/text', async function(req,res){
 
         
-        textApiCall(baseUrl,apiKey,req.body.inputText);
+      await  textApiCall(baseUrl,apiKey,req.body.inputText);
         res.send(result);
 
 });

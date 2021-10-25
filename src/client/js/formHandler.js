@@ -17,11 +17,9 @@ function handleSubmit(event) {
         })
     .then(response => response.json())
     .then(function(response) {
-        console.log(response);
         document.getElementById('tense').innerHTML = inputText
         document.getElementById('model').innerHTML = response.model
         document.getElementById('confidence').innerHTML = response.confidence
     })
-    .then(response => response = {})
     }
 export { handleSubmit }

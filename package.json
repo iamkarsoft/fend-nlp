@@ -31,7 +31,7 @@
   },
   "scripts": {
     "test": "jest",
-    "start": "nodemon src/server/index.js",
+    "start": "node src/server/index.js",
     "build-prod": "webpack --config webpack.prod.js",
     "build-dev": "webpack --config webpack.dev.js"
   }
